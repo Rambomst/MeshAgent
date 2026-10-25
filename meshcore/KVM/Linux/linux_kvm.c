@@ -1379,8 +1379,13 @@ void* kvm_server_mainloop_x11(void* parm)
 			}
 			len += cbBytesRead;
 			ptr2 = 0;
-			while ((ptr2 = kvm_server_inputdata((char*)pchRequest2 + ptr, cbBytesRead - ptr)) != 0) { ptr += ptr2; }
-			if (ptr == len) { len = 0; ptr = 0; }
+			while ((ptr2 = kvm_server_inputdata(pchRequest2 + ptr, len - ptr)) != 0) { ptr += ptr2; }
+			if (ptr > 0)
+			{
+				len -= ptr;
+				if (len > 0) { memmove(pchRequest2, pchRequest2 + ptr, (size_t)len); }
+				ptr = 0;
+			}
 		}
 
 		if (cursordisplay == NULL)

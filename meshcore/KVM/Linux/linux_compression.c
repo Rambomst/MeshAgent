@@ -233,7 +233,7 @@ static int avif_screen_content_ok(void)
 
 static int write_AVIF_buffer(JSAMPLE *pixels, int width, int height, size_t stride, int quality)
 {
-	if (width < 1 || height < 1 || (size_t)width > 2097152 / (size_t)height || stride > UINT32_MAX || stride < (size_t)width * 3 || !load_avif()) return 0;
+	if (width < 1 || height < 1 || stride > UINT32_MAX || stride < (size_t)width * 3 || !load_avif()) return 0;
 	avifImage *image = avif.image_create(width, height, 8, quality == 100 ? AVIF_PIXEL_FORMAT_YUV444 : AVIF_PIXEL_FORMAT_YUV420);
 	if (image == NULL) return 0;
 	image->colorPrimaries = AVIF_COLOR_PRIMARIES_BT709;
